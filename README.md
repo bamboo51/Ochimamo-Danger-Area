@@ -1,53 +1,71 @@
 # Ochimamo
-This is repo for defining danger area in high place work site. This application is the part of Ochimamo PBL.
+This is a repository for an application that defines danger areas in high-place work sites. This application is part of the Ochimamo Project-Based Learning (PBL) initiative.
 
-## 1. 概要
-`Beacon Grid Editor`は、屋上のフロアプラン画像上に、BLEビーコンなどのデバイスを最適に配置するためのGUIアプリケーションである。
-ユーザーは危険区域を指定し、遺伝的アルゴリズム（GA）を用いて、カバレッジが最大になるようなビーコンの配置案を自動で算出できる。
-最終的な配置計画は、M5Stackに使用できるようにJSON形式でエクスポートすることが可能である。
+**日本語のREADME**
+> <a href="./README/README_jp.md">日本語のREADME</a>"
 
-## 2. 主な機能
-- 画像の読み込み: フロアプランの画像（PNG, JPG）を読み込んでキャンバスに表示する。
-- 画像編集:
-    - クロップ（切り抜き）: 画像の必要な部分だけを切り抜いて使用できる。
-    - 危険区域の設定: ビーコンを設置したくないエリアを矩形で複数指定できる
-- グリッド設定: 画像の縮尺を実際の寸法（メートル）に合わせて設定し、仮想的な設置候補グリッドを生成する。
-- ビーコンの最適配置: 遺伝的アルゴリズム（GA）を利用して、危険区域を避けながら、カバレッジを最大化するビーコンの配置を計算する。
-- 設定のエクスポート: 算出されたビーコンの座標、グリッド情報、寸法などをJSONファイルとして保存できる。
+## 1. Overview
+The Beacon Grid Editor is a GUI application for optimally placing devices, such as BLE beacons, on a rooftop floor plan image.
 
-## 3. 必要なライブラリ
-本アプリケーションを実行するには、以下のPythonライブラリが必要である。
+Users can specify danger zones and use a genetic algorithm (GA) to automatically calculate a beacon placement plan that maximizes coverage. The final placement plan can be exported in JSON format for use with an M5Stack device.
+
+## 2. Key Features
+Image Loading: Load and display floor plan images (PNG, JPG) on the canvas.
+
+- Image Editing:
+    - Crop: Cut out and use only the necessary parts of the image.
+    - Danger Zone Configuration: Specify multiple rectangular areas where beacons should not be placed.
+- Grid Settings: Set the image scale to actual dimensions (in meters) to generate a virtual grid of potential placement points.
+- Optimal Beacon Placement: Utilizes a genetic algorithm (GA) to calculate beacon placements that maximize coverage while avoiding danger zones.
+- Settings Export: Save the calculated beacon coordinates, grid information, dimensions, and more as a JSON file.
+
+## 3. Requirements
+To run this application, the following Python libraries are required:
 - `customtkinter`
 - `Pillow`
 - `opencv-python`
 - `numpy`
 
-## 4. インストール方法
-以下のコマンドを実行して、必要なライブラリをインストールする。
-``` bash
+## 4. Installation
+Install the required libraries by running the following command:
+```bash
 pip install customtkinter Pillow opencv-python numpy
 ```
 
-## 5. 使用方法
-1. リポジトリをクローンまたはダウンロードし、ターミナルでプロジェクトのディレクトリに移動する。
-2. 以下のコマンドでアプリケーションを起動する。
-``` bash
+## 5. Usage
+1. Clone or download the repository and navigate to the project directory in your terminal.
+
+2. Launch the application with the following command:
+```bash
 python main.py
 ```
-3. 基本的な操作フロー:
-    1. Open Image: フロアプランの画像ファイルを開く。
-    2. Set Grid: Grid W (m) と Grid H (m) に画像の実際の幅と高さをメートル単位で入力し、Set Gridボタンを押す。
-    3. Toggle Danger Zone: 危険区域（ビーコンを置きたくない場所）を指定するための赤い矩形を表示する。矩形はドラッグして移動・リサイズできる。
-    4. Apply Danger Zone: 矩形の場所を危険区域としてマスクに適用する。この操作は複数回繰り返すことができる。
-    5. Run Estimation: 全ての設定が完了したら、このボタンを押して遺伝的アルゴリズムによる最適配置計算を実行する。計算が完了すると、青い円でビーコンの配置場所が示される
-    6. Export JSON: 最終的な配置情報をJSONファイルとして保存する。
+3. Basic Workflow:
 
-## 6. ファイル構成
-本プロジェクトは、Model-View-Controller (MVC) の考え方に基づいて、以下のファイルに分割されている。
-- `main.py`: アプリケーション全体を起動するメインファイルである。各コンポーネント（Model, View, Controller）を初期化し、ウィンドウを構築する。
-- `AppState.py`: Model: アプリケーションの状態（読み込んだ画像、ズームレベル、各種座標など）を一元管理する。
-- `Controller.py`: Controller: アプリケーションのコアロジックを担う。ボタンが押された際の処理や、アルゴリズムの実行などを行う。
-- `ControlPanel.py`: View: ウィンドウ右側の操作パネルのUIを構築する。
-- `Canvas.py`: View: 画像を表示し、マウス操作（ズーム、ドラッグなど）を受け付けるメインキャンバスのUIを構築する。
-- `ImageProcessor.py`: 画像処理に関するヘルパー関数（危険区域の自動検出、建物のマスク作成など）をまとめたクラスである。
-- `Genetic.py`: ビーコンの最適配置を計算するための遺伝的アルゴリズムを実装したクラスである。
+    1. Open Image: Open a floor plan image file.
+
+    2. Set Grid: Enter the actual width and height of the image in meters into the Grid W (m) and Grid H (m) fields, then press the Set Grid button.
+
+    3. Toggle Danger Zone: Displays a red rectangle for specifying a danger zone (an area where you do not want to place beacons). The rectangle can be moved and resized by dragging.
+
+    4. Apply Danger Zone: Applies the rectangle's location as a danger zone mask. This operation can be repeated multiple times.
+
+    5. Run Estimation: Once all settings are configured, press this button to execute the optimal placement calculation using the genetic algorithm. When the calculation is complete, the beacon placement locations will be indicated by blue circles.
+
+    6. Export JSON: Save the final placement information as a JSON file.
+
+## 6. File Structure
+This project is divided into the following files based on the Model-View-Controller (MVC) architectural pattern.
+
+- `main.py`: The main file that launches the entire application. It initializes each component (Model, View, Controller) and builds the window.
+
+- `AppState.py`: Model: Manages the application's state (loaded image, zoom level, various coordinates, etc.) in a centralized way.
+
+- `Controller.py`: Controller: Handles the application's core logic. It processes actions from button presses and executes algorithms.
+
+- `ControlPanel.py`: View: Builds the UI for the control panel on the right side of the window.
+
+- `Canvas.py`: View: Builds the main canvas UI that displays the image and accepts mouse interactions (zoom, drag, etc.).
+
+- `ImageProcessor.py`: A class that contains helper functions for image processing (such as automatic detection of danger zones and creating building masks).
+
+- `Genetic.py`: A class that implements the genetic algorithm for calculating the optimal placement of beacons.
